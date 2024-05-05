@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   build-and-deploy:
@@ -16,15 +16,12 @@ jobs:
     - name: Build project
       run: npm run build
     - name: Deploy to prod
-      uses: actions/checkout@v2
-      with:
-        ref: prod
-        path: prod-deploy
       run: |
-        mv dist/* prod-deploy/
-        cd prod-deploy
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
+        git clone --branch prod https://github.com/yourusername/yourrepository.git prod-deploy
+        mv dist/* prod-deploy/
+        cd prod-deploy
         git add .
         git commit -m "Deploy to prod"
         git push
