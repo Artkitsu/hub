@@ -9,9 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: main
       - name: Build project
         run: npm run build
-      
+      - name: Deploy to prod
+        run: |
+          git config --global user.email "pierrefontaine.pro@outlook.com"
+          git config --global user.name "Artkitsu"
+          git clone --branch prod https://github.com/Artkitsu/hub.git prod-deploy
+          mv dist/* prod-deploy/
+          cd prod-deploy
+          git add .
+          git commit -m "Deploy to prod"
+          git push
