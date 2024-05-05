@@ -1,27 +1,17 @@
-name: Build and Deploy
+name: Deploy on GithubPage
 
 on:
   push:
     branches:
-      - dev
-
+      - main
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        ref: dev
-    - name: Build project
-      run: npm run build
-    - name: Deploy to prod
-      run: |
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
-        git clone --branch prod https://github.com/yourusername/yourrepository.git prod-deploy
-        mv dist/* prod-deploy/
-        cd prod-deploy
-        git add .
-        git commit -m "Deploy to prod"
-        git push
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      - name: Build project
+        run: npm run build
+      
